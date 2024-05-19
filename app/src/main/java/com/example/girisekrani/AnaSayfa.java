@@ -1,5 +1,6 @@
 package com.example.girisekrani;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -19,22 +20,23 @@ public class AnaSayfa extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityAnaSayfaBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        replaceFragment(new AnasayfaFragment());
 
         binding.navBar.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.anasayfa) {
                 Log.d("NavBar", "Anasayfa selected");
-                replaceFragment(new AnasayfaFragment());
+                Intent i =  new Intent(AnaSayfa.this,AnaSayfa.class);
+                startActivity(i);
             } else if (itemId == R.id.kible) {
                 Log.d("NavBar", "Kible selected");
-                replaceFragment(new KibleFragment());
+                Intent i =  new Intent(AnaSayfa.this,Kible.class);
+                startActivity(i);
             } else if (itemId == R.id.namazVakit) {
                 Log.d("NavBar", "Namaz Vakit selected");
-                replaceFragment(new VakitFragment());
+                //replaceFragment(new VakitFragment());
             } else if (itemId == R.id.ayarlar) {
                 Log.d("NavBar", "Ayarlar selected");
-                replaceFragment(new SettingsFragment());
+                //replaceFragment(new SettingsFragment());
             } else {
                 Log.d("NavBar", "Unknown item selected");
                 return false;
