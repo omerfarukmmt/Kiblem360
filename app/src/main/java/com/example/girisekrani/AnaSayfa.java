@@ -39,7 +39,7 @@ public class AnaSayfa extends AppCompatActivity {
                 Log.d("NavBar", "Unknown item selected");
                 return false;
             }
-            return true;
+
         });
 
     }
