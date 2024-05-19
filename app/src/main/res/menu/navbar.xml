@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="Anasayfa"
+        android:icon="@drawable/anasayfa_24"
+        android:id="@+id/anasayfa"/>
+    <item
+        android:title="Kıble"
+        android:icon="@drawable/kible_24"
+        android:id="@+id/kible"/>
+    <item
+        android:id="@+id/namazVakit"
+        android:title="Namaz Vakitleri"
+        android:icon="@drawable/namazvakit_24"/>
+    <item
+        android:title="Ayarlar"
+       android:icon="@drawable/ayarlar_24"
+        android:id="@+id/ayarlar"/>
+</menu>
