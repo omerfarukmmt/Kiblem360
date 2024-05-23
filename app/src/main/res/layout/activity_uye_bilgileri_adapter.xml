@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#A1E3DD"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/isim"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="İsim" />
+
+    <TextView
+        android:id="@+id/soyisim"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Soyisim" />
+
+    <TextView
+        android:id="@+id/email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email" />
+
+    <TextView
+        android:id="@+id/cinsiyet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cinsiyet" />
+
+    <TextView
+        android:id="@+id/sehir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sehir" />
+
+</LinearLayout>
