@@ -1,15 +1,16 @@
 package com.example.girisekrani;
 
 public class UyeBilgileri {
-    private String isim,soyisim,email,sifre,cinsiyet;
+    private String isim,soyisim,email,sifre,cinsiyet,sehir;
 
 
-    public UyeBilgileri(String isim, String soyisim, String email, String sifre, String cinsiyet) {
+    public UyeBilgileri(String isim, String soyisim, String email, String sifre, String cinsiyet,String selectedSehir) {
         this.isim = isim;
         this.soyisim = soyisim;
         this.email = email;
         this.sifre = sifre;
         this.cinsiyet = cinsiyet;
+        this.sehir = selectedSehir;
     }
 
     public UyeBilgileri() {
@@ -24,6 +25,13 @@ public class UyeBilgileri {
                 ", sifre='" + sifre + '\'' +
                 ", cinsiyet='" + cinsiyet + '\'' +
                 '}';
+    }
+
+    public String getSehir() {
+        return sehir;
+    }
+    public void setSehir(String selectedSehir) {
+        this.sehir = selectedSehir;
     }
 
     public String getIsim() {
