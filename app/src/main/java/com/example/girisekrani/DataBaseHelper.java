@@ -109,4 +109,37 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
         return resultList;
     }
+    public boolean updateUser(UyeBilgileri uyeBilgileri) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_MEMBER_NAME, uyeBilgileri.getIsim());
+        cv.put(COLUMN_MEMBER_SURNAME, uyeBilgileri.getSoyisim());
+        cv.put(COLUMN_MEMBER_MAIL, uyeBilgileri.getEmail());
+        cv.put(COLUMN_MEMBER_PASSWORD, uyeBilgileri.getSifre());
+        cv.put(COLUMN_MEMBER_GENDER, uyeBilgileri.getCinsiyet());
+        cv.put(COLUMN_MEMBER_CITY, uyeBilgileri.getSehir());
+
+        int update = db.update(MEMBER_TABLE, cv, COLUMN_MEMBER_MAIL + " = ?", new String[]{uyeBilgileri.getEmail()});
+        db.close();
+        return update > 0;
+    }
+
+    public UyeBilgileri getUserByEmail(String email) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + MEMBER_TABLE + " WHERE " + COLUMN_MEMBER_MAIL + " = ?", new String[]{email});
+        UyeBilgileri uyeBilgileri = null;
+        if (cursor.moveToFirst()) {
+            String isim = cursor.getString(cursor.getColumnIndex(COLUMN_MEMBER_NAME));
+            String soyisim = cursor.getString(cursor.getColumnIndex(COLUMN_MEMBER_SURNAME));
+            String sifre = cursor.getString(cursor.getColumnIndex(COLUMN_MEMBER_PASSWORD));
+            String cinsiyet = cursor.getString(cursor.getColumnIndex(COLUMN_MEMBER_GENDER));
+            String sehir = cursor.getString(cursor.getColumnIndex(COLUMN_MEMBER_CITY));
+            uyeBilgileri = new UyeBilgileri(isim, soyisim, email, sifre, cinsiyet, sehir);
+        }
+        cursor.close();
+        db.close();
+        return uyeBilgileri;
+    }
+
 }

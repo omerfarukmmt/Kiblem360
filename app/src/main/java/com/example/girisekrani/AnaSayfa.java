@@ -86,7 +86,12 @@ public class AnaSayfa extends AppCompatActivity {
                 startActivity(i);
             } else if (itemId == R.id.ayarlar) {
                 Log.d("NavBar", "Ayarlar selected");
+
+                SharedPreferences sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+                String email = sharedPref.getString("email", null);
+
                 Intent i = new Intent(AnaSayfa.this, Ayarlar.class);
+                i.putExtra("USER_EMAIL", email);  // Email adresini intent ile Ayarlar activity'sine gönderiyoruz
                 startActivity(i);
             } else {
                 Log.d("NavBar", "Unknown item selected");
