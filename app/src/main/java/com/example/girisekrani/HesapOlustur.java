@@ -122,7 +122,7 @@ public class HesapOlustur extends AppCompatActivity {
                 kayitOl.setEnabled(true);
                 kayitOl.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View view){
-                        UyeBilgileri uyeBilgileri = new UyeBilgileri(isim.getText().toString(),soyisim.getText().toString(),mail.getText().toString(),sifre.getText().toString(),secilenCinsiyet,secilenSehir);
+                        UyeBilgileri uyeBilgileri = new UyeBilgileri(isim.getText().toString(),soyisim.getText().toString(),mail.getText().toString(),sifre.getText().toString(),secilenCinsiyet,secilenSehir,0);
                         DataBaseHelper dataBaseHelper = new DataBaseHelper(HesapOlustur.this);
 
                         boolean basari = dataBaseHelper.addOne(uyeBilgileri);

@@ -153,7 +153,7 @@ public class Kible extends AppCompatActivity implements SensorEventListener {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String city = parent.getItemAtPosition(position).toString();
-                selectedQiblaAngle = cityQiblaAngles.getOrDefault(city, 151);
+                selectedQiblaAngle = cityQiblaAngles.getOrDefault(city, 174);
             }
 
             @Override

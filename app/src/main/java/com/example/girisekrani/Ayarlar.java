@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class Ayarlar extends AppCompatActivity {
 
     private EditText searchQuery, editName, editSurname, editEmail, editCity, editPassword;
-    private Button searchButton, updateButton;
+    private Button searchButton, updateButton, deleteButton;
     private ListView resultsListView;
     private RatingBar ratingBar;
     private DataBaseHelper dataBaseHelper;
@@ -30,6 +30,7 @@ public class Ayarlar extends AppCompatActivity {
     private UyeBilgileri currentUser;
 
     ActivityAyarlarBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +49,7 @@ public class Ayarlar extends AppCompatActivity {
         editCity = findViewById(R.id.editCity);
         editPassword = findViewById(R.id.editPassword);
         updateButton = findViewById(R.id.updateButton);
+        deleteButton = findViewById(R.id.deleteButton); // Yeni silme butonu
 
         dataBaseHelper = new DataBaseHelper(this);
 
@@ -63,6 +65,7 @@ public class Ayarlar extends AppCompatActivity {
                 editEmail.setText(currentUser.getEmail());
                 editCity.setText(currentUser.getSehir());
                 editPassword.setText(currentUser.getSifre());
+                ratingBar.setRating(currentUser.getRating());  // RatingBar değerini ayarla
             } else {
                 Toast.makeText(this, "Kullanıcı bulunamadı", Toast.LENGTH_SHORT).show();
                 finish(); // Eğer kullanıcı bulunamazsa activity'i kapatabiliriz
@@ -94,6 +97,8 @@ public class Ayarlar extends AppCompatActivity {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 if (fromUser) {
+                    currentUser.setRating(rating);  // Yeni değeri ayarla
+                    dataBaseHelper.updateUser(currentUser);  // Veritabanını güncelle
                     showThankYouDialog();
                 }
             }
@@ -103,6 +108,13 @@ public class Ayarlar extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 updateUserInfo();
+            }
+        });
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteUser();
             }
         });
 
@@ -152,24 +164,32 @@ public class Ayarlar extends AppCompatActivity {
         String city = editCity.getText().toString();
         String password = editPassword.getText().toString();
 
-        if (name.isEmpty() || surname.isEmpty() || email.isEmpty() || city.isEmpty() || password.isEmpty()) {
-            Toast.makeText(Ayarlar.this, "Lütfen tüm alanları doldurun", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        if (currentUser != null) {
+            currentUser.setIsim(name);
+            currentUser.setSoyisim(surname);
+            currentUser.setEmail(email);
+            currentUser.setSehir(city);
+            currentUser.setSifre(password);
 
-        currentUser.setIsim(name);
-        currentUser.setSoyisim(surname);
-        currentUser.setEmail(email);
-        currentUser.setSehir(city);
-        currentUser.setSifre(password);
-
-        boolean success = dataBaseHelper.updateUser(currentUser);
-        if (success) {
-            Toast.makeText(Ayarlar.this, "Bilgiler başarıyla güncellendi", Toast.LENGTH_SHORT).show();
+            dataBaseHelper.updateUser(currentUser);
+            Toast.makeText(this, "Kullanıcı bilgileri güncellendi", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(Ayarlar.this, "Bilgiler güncellenirken hata oluştu", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Güncellenecek kullanıcı bilgileri bulunamadı", Toast.LENGTH_SHORT).show();
         }
     }
 
-
+    private void deleteUser() {
+        if (currentUser != null) {
+            boolean success = dataBaseHelper.deleteUser(currentUser.getEmail());
+            if (success) {
+                Toast.makeText(this, "Kullanıcı silindi", Toast.LENGTH_SHORT).show();
+                finishAffinity(); // Tüm aktiviteleri kapat
+                System.exit(0);   // Uygulamanın süreçlerini sonlandır
+            } else {
+                Toast.makeText(this, "Kullanıcı silinemedi", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, "Silinecek kullanıcı bulunamadı", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

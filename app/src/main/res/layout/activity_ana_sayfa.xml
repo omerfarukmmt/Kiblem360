@@ -8,27 +8,109 @@
     android:background="#e0f7fa"
     tools:context=".AnaSayfa">
 
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="608dp"
+        android:layout_height="62dp"
+        android:layout_x="-86dp"
+        android:layout_y="-62dp"
+        android:backgroundTint="#61CCBF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/frameLayout" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="109dp"
+        android:layout_y="-50dp"
+        android:text="Kur'anı-ı Kerim"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/webViewAnaSayfa"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <WebView
+        android:id="@+id/webViewAnaSayfa"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginBottom="54dp"
+        android:layout_x="0dp"
+        android:layout_y="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="608dp"
+        android:layout_height="62dp"
+        android:layout_marginBottom="316dp"
+        android:layout_x="-144dp"
+        android:layout_y="448dp"
+        android:backgroundTint="#61CCBF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/sifirla"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="58dp"
+        android:layout_marginTop="2dp"
+        android:backgroundTint="#18BCA9"
+        android:text="Sıfırla"
+        app:layout_constraintStart_toEndOf="@+id/zikirMatikBtn"
+        app:layout_constraintTop_toBottomOf="@+id/ZikirmatikTextView" />
+
+    <TextView
+        android:id="@+id/ZikirmatikTextView"
+        android:layout_width="57dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="51dp"
+        android:layout_marginEnd="89dp"
+        android:layout_marginBottom="50dp"
+        android:gravity="center"
+        android:text="0"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/zikirMatikBtn"
+        app:layout_constraintEnd_toEndOf="@+id/sifirla"
+        app:layout_constraintStart_toStartOf="@+id/zikirMatikBtn"
+        app:layout_constraintTop_toTopOf="@+id/textViewNothing" />
+
+    <Button
+        android:id="@+id/zikirMatikBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="86dp"
+        android:layout_marginTop="56dp"
+        android:backgroundTint="#00796B"
+        android:text="Tıkla"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewNothing" />
+
     <TextView
         android:id="@+id/textViewNothing"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="139dp"
-        android:layout_marginTop="112dp"
-        android:layout_marginEnd="139dp"
+        android:layout_marginTop="27dp"
         android:gravity="center"
         android:text="Zikirmatik"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/webViewAnaSayfa" />
+        app:layout_constraintTop_toBottomOf="@+id/button" />
 
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="785dp"
-        app:layout_constraintBottom_toTopOf="@+id/navBar"
+        app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -41,71 +123,7 @@
         android:background="#61CCBF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout"
         app:menu="@menu/navbar" />
-
-    <WebView
-        android:id="@+id/webViewAnaSayfa"
-        android:layout_width="412dp"
-        android:layout_height="448dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
-
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="109dp"
-        android:layout_marginEnd="108dp"
-        android:text="Kur'anı-ı Kerim"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/zikirMatikBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="88dp"
-        android:layout_marginBottom="24dp"
-        android:backgroundTint="#00796B"
-        android:text="Tıkla"
-        app:layout_constraintBottom_toTopOf="@+id/navBar"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/ZikirmatikTextView"
-        android:layout_width="57dp"
-        android:layout_height="43dp"
-        android:layout_marginStart="205dp"
-        android:layout_marginTop="682dp"
-        android:layout_marginEnd="206dp"
-        android:layout_marginBottom="168dp"
-        android:gravity="center"
-        android:text="0"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/sifirla"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="58dp"
-        android:layout_marginEnd="87dp"
-        android:layout_marginBottom="26dp"
-        android:backgroundTint="#18BCA9"
-        android:text="Sıfırla"
-        app:layout_constraintBottom_toTopOf="@+id/navBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/zikirMatikBtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

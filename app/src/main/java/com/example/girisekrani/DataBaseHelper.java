@@ -18,10 +18,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_MEMBER_PASSWORD = "MEMBER_PASSWORD";
     public static final String COLUMN_MEMBER_GENDER = "MEMBER_GENDER";
     public static final String COLUMN_MEMBER_CITY = "MEMBER_CITY";
+    public static final String COLUMN_MEMBER_RATING = "MEMBER_RATING";
 
 
     public DataBaseHelper(@Nullable Context context) {
-        super(context, "member.db", null, 1);
+        super(context, "member.db", null, 2);
     }
 
     @Override
@@ -32,13 +33,16 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 COLUMN_MEMBER_MAIL + " TEXT, " +
                 COLUMN_MEMBER_PASSWORD + " TEXT, " +
                 COLUMN_MEMBER_GENDER + " TEXT, " +
-                COLUMN_MEMBER_CITY + " TEXT)";
+                COLUMN_MEMBER_CITY + " TEXT, " +
+                COLUMN_MEMBER_RATING + " REAL)";
         db.execSQL(createTableStatement);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // upgrade logic here
+        if (oldVersion < 2) {
+            db.execSQL("ALTER TABLE " + MEMBER_TABLE + " ADD COLUMN " + COLUMN_MEMBER_RATING + " REAL");
+        }
     }
 
     public boolean addOne(UyeBilgileri uyeBilgileri) {
@@ -101,7 +105,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 String sifre = cursor.getString(cursor.getColumnIndex(COLUMN_MEMBER_PASSWORD));
                 String cinsiyet = cursor.getString(cursor.getColumnIndex(COLUMN_MEMBER_GENDER));
                 String sehir = cursor.getString(cursor.getColumnIndex(COLUMN_MEMBER_CITY));
-                UyeBilgileri uyeBilgileri = new UyeBilgileri(isim, soyisim, email, sifre, cinsiyet, sehir);
+                float rating = cursor.getFloat(cursor.getColumnIndex(COLUMN_MEMBER_RATING));
+                UyeBilgileri uyeBilgileri = new UyeBilgileri(isim,soyisim,email,sifre,cinsiyet,sehir,rating);
                 resultList.add(uyeBilgileri);
             } while (cursor.moveToNext());
         }
@@ -119,6 +124,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_MEMBER_PASSWORD, uyeBilgileri.getSifre());
         cv.put(COLUMN_MEMBER_GENDER, uyeBilgileri.getCinsiyet());
         cv.put(COLUMN_MEMBER_CITY, uyeBilgileri.getSehir());
+        cv.put(COLUMN_MEMBER_RATING, uyeBilgileri.getRating());
 
         int update = db.update(MEMBER_TABLE, cv, COLUMN_MEMBER_MAIL + " = ?", new String[]{uyeBilgileri.getEmail()});
         db.close();
@@ -135,11 +141,18 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             String sifre = cursor.getString(cursor.getColumnIndex(COLUMN_MEMBER_PASSWORD));
             String cinsiyet = cursor.getString(cursor.getColumnIndex(COLUMN_MEMBER_GENDER));
             String sehir = cursor.getString(cursor.getColumnIndex(COLUMN_MEMBER_CITY));
-            uyeBilgileri = new UyeBilgileri(isim, soyisim, email, sifre, cinsiyet, sehir);
+            float rating = cursor.getFloat(cursor.getColumnIndexOrThrow(COLUMN_MEMBER_RATING));
+            uyeBilgileri = new UyeBilgileri(isim, soyisim, email, sifre, cinsiyet, sehir,rating);
         }
         cursor.close();
         db.close();
         return uyeBilgileri;
+    }
+    public boolean deleteUser(String email) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int rowsAffected = db.delete(MEMBER_TABLE, COLUMN_MEMBER_MAIL + " = ?", new String[]{email});
+        db.close();
+        return rowsAffected > 0;
     }
 
 }

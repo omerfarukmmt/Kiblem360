@@ -2,15 +2,17 @@ package com.example.girisekrani;
 
 public class UyeBilgileri {
     private String isim,soyisim,email,sifre,cinsiyet,sehir;
+    private float rating;
 
 
-    public UyeBilgileri(String isim, String soyisim, String email, String sifre, String cinsiyet,String selectedSehir) {
+    public UyeBilgileri(String isim, String soyisim, String email, String sifre, String cinsiyet,String selectedSehir,float rating) {
         this.isim = isim;
         this.soyisim = soyisim;
         this.email = email;
         this.sifre = sifre;
         this.cinsiyet = cinsiyet;
         this.sehir = selectedSehir;
+        this.rating = rating;
     }
 
     public UyeBilgileri() {
@@ -26,7 +28,13 @@ public class UyeBilgileri {
                 ", cinsiyet='" + cinsiyet + '\'' +
                 '}';
     }
+    public float getRating() {
+        return rating;
+    }
 
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
     public String getSehir() {
         return sehir;
     }
