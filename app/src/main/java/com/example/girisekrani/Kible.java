@@ -1,11 +1,15 @@
 package com.example.girisekrani;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
@@ -16,6 +20,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.girisekrani.databinding.ActivityAnaSayfaBinding;
+import com.example.girisekrani.databinding.ActivityKibleBinding;
 
 import java.util.HashMap;
 
@@ -29,12 +36,17 @@ public class Kible extends AppCompatActivity implements SensorEventListener {
 
 
     private HashMap<String, Integer> cityQiblaAngles;
-    private int selectedQiblaAngle = 151;
+    private int selectedQiblaAngle = 174;
 
+
+    ActivityKibleBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kible);
+        binding = ActivityKibleBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        binding.navBar.setSelectedItemId(R.id.kible);
 
         compas_image = findViewById(R.id.image_compas);
         derece = findViewById(R.id.derece);
@@ -148,6 +160,36 @@ public class Kible extends AppCompatActivity implements SensorEventListener {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+
+        binding.navBar.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.anasayfa) {
+                Log.d("NavBar", "Anasayfa selected");
+                Intent i = new Intent(Kible.this, AnaSayfa.class);
+                startActivity(i);
+            } else if (itemId == R.id.kible) {
+                Log.d("NavBar", "Kible selected");
+                Intent i = new Intent(Kible.this, Kible.class);
+                startActivity(i);
+            } else if (itemId == R.id.namazVakit) {
+                Log.d("NavBar", "Namaz Vakit selected");
+                Intent i = new Intent(Kible.this, Vakitler.class);
+                startActivity(i);
+            } else if (itemId == R.id.ayarlar) {
+                Log.d("NavBar", "Ayarlar selected");
+
+                SharedPreferences sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+                String email = sharedPref.getString("email", null);
+
+                Intent i = new Intent(Kible.this, Ayarlar.class);
+                i.putExtra("USER_EMAIL", email);  // Email adresini intent ile Ayarlar activity'sine gönderiyoruz
+                startActivity(i);
+            } else {
+                Log.d("NavBar", "Unknown item selected");
+                return false;
+            }
+            return true;
+        });
     }
 
     @Override
@@ -178,19 +220,19 @@ public class Kible extends AppCompatActivity implements SensorEventListener {
             kible.setText("Kıble: Tam Önünüzde");
             kible.setTextColor(Color.GREEN);
         } else if (diff > 5 && diff <= 45) {
-            kible.setText("Kıble: Sağ Önünüzde");
+            kible.setText("Kıble: Sol Önünüzde");
             kible.setTextColor(Color.YELLOW);
         } else if (diff > 45 && diff < 135) {
-            kible.setText("Kıble: Sağınızda");
+            kible.setText("Kıble: Solunuzda");
             kible.setTextColor(Color.RED);
         } else if (diff >= 135 && diff <= 225) {
             kible.setText("Kıble: Arkanızda");
             kible.setTextColor(Color.RED);
         } else if (diff > 225 && diff <= 315) {
-            kible.setText("Kıble: Solunuzda");
+            kible.setText("Kıble: Sağınızda");
             kible.setTextColor(Color.RED);
         } else {
-            kible.setText("Kıble: Sol Önünüzde");
+            kible.setText("Kıble: Sağ Önünüzde");
             kible.setTextColor(Color.YELLOW);
         }
     }

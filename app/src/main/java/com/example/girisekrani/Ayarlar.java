@@ -1,7 +1,10 @@
 package com.example.girisekrani;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,6 +13,10 @@ import android.widget.RatingBar;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.girisekrani.databinding.ActivityAnaSayfaBinding;
+import com.example.girisekrani.databinding.ActivityAyarlarBinding;
+
 import java.util.ArrayList;
 
 public class Ayarlar extends AppCompatActivity {
@@ -22,10 +29,14 @@ public class Ayarlar extends AppCompatActivity {
     private UyeBilgileriAdapter uyeBilgileriAdapter;
     private UyeBilgileri currentUser;
 
+    ActivityAyarlarBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ayarlar);
+        binding = ActivityAyarlarBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        binding.navBar.setSelectedItemId(R.id.ayarlar);
 
         searchQuery = findViewById(R.id.searchQuery);
         searchButton = findViewById(R.id.searchButton);
@@ -94,6 +105,36 @@ public class Ayarlar extends AppCompatActivity {
                 updateUserInfo();
             }
         });
+
+        binding.navBar.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.anasayfa) {
+                Log.d("NavBar", "Anasayfa selected");
+                Intent i = new Intent(Ayarlar.this, AnaSayfa.class);
+                startActivity(i);
+            } else if (itemId == R.id.kible) {
+                Log.d("NavBar", "Kible selected");
+                Intent i = new Intent(Ayarlar.this, Kible.class);
+                startActivity(i);
+            } else if (itemId == R.id.namazVakit) {
+                Log.d("NavBar", "Namaz Vakit selected");
+                Intent i = new Intent(Ayarlar.this, Vakitler.class);
+                startActivity(i);
+            } else if (itemId == R.id.ayarlar) {
+                Log.d("NavBar", "Ayarlar selected");
+
+                SharedPreferences sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+                String email = sharedPref.getString("email", null);
+
+                Intent i = new Intent(Ayarlar.this, Ayarlar.class);
+                i.putExtra("USER_EMAIL", email);  // Email adresini intent ile Ayarlar activity'sine gönderiyoruz
+                startActivity(i);
+            } else {
+                Log.d("NavBar", "Unknown item selected");
+                return false;
+            }
+            return true;
+        });
     }
 
     private void showThankYouDialog() {
@@ -129,4 +170,6 @@ public class Ayarlar extends AppCompatActivity {
             Toast.makeText(Ayarlar.this, "Bilgiler güncellenirken hata oluştu", Toast.LENGTH_SHORT).show();
         }
     }
+
+
 }

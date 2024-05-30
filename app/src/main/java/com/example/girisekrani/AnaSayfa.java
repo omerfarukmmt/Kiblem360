@@ -100,81 +100,9 @@ public class AnaSayfa extends AppCompatActivity {
             return true;
         });
 
-        countdownTextView = findViewById(R.id.countdownTextView);
-
-        SharedPreferences sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-        String email = sharedPref.getString("email", null);
-
-        if (email != null) {
-            Log.d("AnaSayfa", "Kullanıcı e-posta: " + email);
-            DataBaseHelper dataBaseHelper = new DataBaseHelper(this);
-            String city = dataBaseHelper.getCityFromDatabase(email);
-            String country = "Turkey"; //
-
-            new Thread(() -> {
-                try {
-                    JsonObject prayerTimes = NamazVakitleriniCek.getPrayerTimes(city, country);
-                    runOnUiThread(() -> {
-                        startCountdown(prayerTimes);
-                    });
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }).start();
-        } else {
-            Log.e("AnaSayfa", "Kullanıcı e-posta bilgisi bulunamadı.");
-        }
     }
 
-    private void startCountdown(JsonObject prayerTimes) {
-        handler = new Handler();
-        runnable = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    String nextPrayerTime = getNextPrayerTime(prayerTimes);
-                    if (nextPrayerTime != null) {
-                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
-                        Date nextPrayerDate = sdf.parse(nextPrayerTime);
-                        Date currentDate = new Date();
-                        long diff = nextPrayerDate.getTime() - currentDate.getTime();
 
-
-                        if (diff < 0) {
-                            diff += 24 * 60 * 60 * 1000;
-                        }
-
-                        long hours = diff / (1000 * 60 * 60);
-                        long minutes = (diff / (1000 * 60)) % 60;
-                        long seconds = (diff / 1000) % 60;
-                        String timeLeft = String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds);
-                        countdownTextView.setText(timeLeft);
-                    }
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                handler.postDelayed(this, 1000);
-            }
-        };
-        handler.post(runnable);
-    }
-
-    private String getNextPrayerTime(JsonObject prayerTimes) {
-        String[] prayerNames = {"Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"};
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
-        Date currentDate = new Date();
-        try {
-            for (String prayerName : prayerNames) {
-                Date prayerDate = sdf.parse(prayerTimes.get(prayerName).getAsString());
-                if (prayerDate.after(currentDate)) {
-                    return prayerTimes.get(prayerName).getAsString();
-                }
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     @Override
     protected void onDestroy() {
